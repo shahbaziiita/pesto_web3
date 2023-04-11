@@ -41,16 +41,15 @@ contract StringOperations {
     /// @return the string
     function replaceAllOccurence(string calldata s, string calldata x, string calldata y ) public pure returns(string memory) {
         bytes memory _stringBytes = bytes(s);
-        bytes memory xBytes = bytes(x);
-        bytes memory result = new bytes(_stringBytes.length);
+        bytes1 xBytes = bytes(x)[0];
+        bytes1 yBytes = bytes(y)[0];
 
-        for(uint i = 0; i < _stringBytes.length; i++) {
+        for(uint i; i < _stringBytes.length; i++) {
 
-            result[i] = _stringBytes[i];
-
-            if(_stringBytes[i] == xBytes[0])
-                result[i]=bytes(y)[0];
+            if(_stringBytes[i] == xBytes) {
+                _stringBytes[i] = yBytes;
+            }
         }
-        return string(result);
+        return string(_stringBytes);
     }
 }
